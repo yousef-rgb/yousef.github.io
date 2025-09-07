@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthic – AI-Powered Chronic Disease Support</title>
+  <meta name="description" content="Comprehensive AI-powered platform for chronic disease management, prevention, and education">
+  <link rel="icon" href="digotopia.jpeg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2A7CC7;
+      --primary-dark: #1E5AA8;
+      --secondary: #38B6A5;
+      --accent: #FF6B6B;
+      --light: #F8F9FA;
+      --dark: #212529;
+      --muted: #6C757D;
+      --success: #28A745;
+      --warning: #FFC107;
+      --danger: #DC3545;
+      
+      --bg: #F0F8FF;
+      --panel: #FFFFFF;
+      --text: #2D3748;
+      --border: #E2E8F0;
+      
+      --radius: 12px;
+      --radius-lg: 16px;
+      --max: 1200px;
+      --transition: 0.3s ease;
+      --transition-slow: 0.5s ease;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.12);
+      --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ================= DARK MODE VARIABLES ================= */
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --panel: #1e293b;
+      --text: #e2e8f0;
+      --border: #334155;
+      --muted: #94a3b8;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.25);
+      --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ================= RESET & BASE ================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background-color var(--transition-slow), color var(--transition-slow);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    a:hover {
+      color: var(--secondary);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ================= TYPOGRAPHY ================= */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.5em;
+      color: var(--dark);
+    }
+
+    [data-theme="dark"] h1,
+    [data-theme="dark"] h2,
+    [data-theme="dark"] h3,
+    [data-theme="dark"] h4,
+    [data-theme="dark"] h5,
+    [data-theme="dark"] h6 {
+      color: var(--text);
+    }
+
+    h1 {
+      font-size: 3.5rem;
+    }
+
+    h2 {
+      font-size: 2.75rem;
+    }
+
+    h3 {
+      font-size: 2rem;
+    }
+
+    h4 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      margin-bottom: 1.2em;
+    }
+
+    /* ================= HEADER & NAVIGATION ================= */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      transition: all var(--transition);
+      padding: 0;
+    }
+
+    [data-theme="dark"] header {
+      background: rgba(30, 41, 59, 0.95);
+    }
+
+    .header-container {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--primary);
+    }
+
+    .brand .logo {
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      overflow: hidden;
+      transition: transform var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .brand .logo:hover {
+      transform: rotate(5deg) scale(1.05);
+    }
+
+    .brand .logo span {
+      color: white;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .main-nav ul {
+      display: flex;
+      list-style: none;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .main-nav li {
+      position: relative;
+    }
+
+    .main-nav a {
+      display: block;
+      padding: 10px 18px;
+      color: var(--text);
+      font-weight: 500;
+      font-size: 15px;
+      border-radius: var(--radius);
+      transition: all var(--transition);
+    }
+
+    .main-nav a:hover {
+      background: rgba(42, 124, 199, 0.1);
+      color: var(--primary);
+    }
+
+    .main-nav a.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .control-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      transition: all var(--transition);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .control-btn:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all var(--transition);
+      font-size: 15px;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: 0;
+      box-shadow: var(--shadow);
+    }
+
+    .btn.secondary {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .btn.primary:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+    }
+
+    .btn.secondary:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: var(--radius);
+      transition: all var(--transition);
+    }
+
+    .mobile-menu-toggle:hover {
+      background: rgba(42, 124, 199, 0.1);
+      color: var(--primary);
+    }
+
+    /* ================= MAIN CONTENT ================= */
+    main {
+      padding-top: 80px;
+    }
+
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-alt {
+      background: linear-gradient(to bottom, var(--panel), var(--bg));
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .wrap-narrow {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 70px;
+    }
+
+    .section-header h2 {
+      font-size: 2.75rem;
+      margin-bottom: 20px;
+      position: relative;
+      color: var(--dark);
+      font-weight: 800;
+    }
+
+    [data-theme="dark"] .section-header h2 {
+      color: var(--text);
+    }
+
+    .section-header h2::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 5px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      margin: 20px auto 0;
+      border-radius: 3px;
+    }
+
+    .section-header p {
+      font-size: 1.2rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ================= HERO SECTION ================= */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 50px;
+      align-items: center;
+      padding: 120px 0;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 100px 0 80px;
+      }
+    }
+
+    .hero-content h1 {
+      font-size: 3.5rem;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      color: var(--dark);
+      font-weight: 800;
+    }
+
+    [data-theme="dark"] .hero-content h1 {
+      color: var(--text);
+    }
+
+    .hero-content .lead {
+      font-size: 1.3rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    .hero-animation {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-animation-placeholder {
+      width: 100%;
+      height: 400px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-animation-placeholder::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(to bottom right, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: rotate(45deg);
+      animation: shimmer 3s infinite linear;
+    }
+
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%) rotate(45deg);
+      }
+      100% {
+        transform: translateX(100%) rotate(45deg);
+      }
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      background: rgba(42, 124, 199, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .cta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    /* ================= STATS SECTION ================= */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px 20px;
+      text-align: center;
+      transition: all var(--transition);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(30px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+    }
+
+    .stat-card.animated {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .stat-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: white;
+      font-size: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-number {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    /* ================= PROBLEM SOLUTION SECTION ================= */
+    .ps-container {
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+    }
+
+    .ps-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+      background: var(--panel);
+      border-radius: var(--radius-lg);
+      padding: 50px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ps-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    }
+
+    .ps-card.animated {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .ps-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 30px;
+      }
+    }
+
+    .ps-content h3 {
+      font-size: 2rem;
+      margin-bottom: 24px;
+      color: var(--dark);
+    }
+
+    [data-theme="dark"] .ps-content h3 {
+      color: var(--text);
+    }
+
+    .ps-content p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      color: var(--muted);
+    }
+
+    .ps-content ul {
+      list-style: none;
+    }
+
+    .ps-content li {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 15px;
+      color: var(--text);
+      font-size: 1.05rem;
+    }
+
+    .ps-content li::before {
+      content: "•";
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 24px;
+      position: absolute;
+      left: 0;
+      top: -3px;
+    }
+
+    .ps-animation {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .ps-animation-placeholder {
+      width: 100%;
+      height: 300px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: var(--shadow);
+    }
+
+    /* ================= FEATURES SECTION ================= */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      text-align: center;
+      transition: all var(--transition);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(30px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-card.animated {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 25px;
+      color: white;
+      font-size: 32px;
+      box-shadow: var(--shadow);
+      transition: all var(--transition);
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 18px;
+      color: var(--dark);
+    }
+
+    [data-theme="dark"] .feature-card h3 {
+      color: var(--text);
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      margin-bottom: 25px;
+      line-height: 1.6;
+      font-size: 1.05rem;
+    }
+
+    .feature-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      font-weight: 600;
+      transition: all var(--transition);
+    }
+
+    .feature-link:hover {
+      color: var(--secondary);
+      gap: 12px;
+    }
+
+    /* ================= PROCESS STEPS ================= */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      counter-reset: step-counter;
+      position: relative;
+    }
+
+    .process-steps::before {
+      content: "";
+      position: absolute;
+      top: 40px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      z-index: 1;
+    }
+
+    .process-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+      z-index: 2;
+    }
+
+    .process-step.animated {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+
+    .step-content h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    [data-theme="dark"] .step-content h3 {
+      color: var(--text);
+    }
+
+    .step-content p {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1.05rem;
+    }
+
+    /* ================= CTA SECTION ================= */
+    .cta-section {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      text-align: center;
+      padding: 100px 0;
+      border-radius: var(--radius-lg);
+      margin: 100px 0;
+    }
+
+    .cta-section h2 {
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .cta-section p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      opacity: 0.9;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn.white {
+      background: white;
+      color: var(--primary);
+      border: 2px solid white;
+    }
+
+    .btn.white:hover {
+      background: transparent;
+      color: white;
+    }
+
+    .btn.outline-white {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn.outline-white:hover {
+      background: white;
+      color: var(--primary);
+    }
+
+    /* ================= FOOTER ================= */
+    footer {
+      background: var(--panel);
+      color: var(--muted);
+      margin-top: 100px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 50px;
+      padding: 80px 0;
+    }
+
+    .footer-section h3, .footer-section h4 {
+      color: var(--dark);
+      margin-bottom: 25px;
+    }
+
+    [data-theme="dark"] .footer-section h3,
+    [data-theme="dark"] .footer-section h4 {
+      color: var(--text);
+    }
+
+    .footer-section p {
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section li {
+      margin-bottom: 15px;
+    }
+
+    .footer-section a {
+      color: var(--muted);
+      transition: color var(--transition);
+    }
+
+    .footer-section a:hover {
+      color: var(--primary);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .social-links a {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      transition: all var(--transition);
+    }
+
+    .social-links a:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 30px 0;
+      text-align: center;
+    }
+
+    /* ================= RESPONSIVE STYLES ================= */
+    @media (max-width: 1200px) {
+      h1 {
+        font-size: 3rem;
+      }
+      
+      h2 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .main-nav {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: var(--panel);
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        z-index: 1000;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all var(--transition);
+      }
+      
+      .main-nav.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .main-nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .main-nav a {
+        padding: 15px 20px;
+        border-radius: var(--radius);
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      main {
+        padding-top: 80px;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 15px 20px;
+      }
+      
+      .brand {
+        flex: 1;
+      }
+      
+      .header-controls {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid var(--border);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .section-header h2 {
+        font-size: 2rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .stats-grid,
+      .features-grid,
+      .process-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .ps-card {
+        padding: 30px 20px;
+      }
+
+      .cta {
+        justify-content: center;
+      }
+
+      .testimonial {
+        padding: 30px 20px;
+      }
+
+      .cta-section {
+        padding: 60px 20px;
+        margin: 60px 0;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-container {
+        padding: 10px 15px;
+      }
+
+      .brand {
+        font-size: 1.4rem;
+      }
+
+      .brand .logo {
+        width: 40px;
+        height: 40px;
+      }
+
+      .brand .logo span {
+        font-size: 20px;
+      }
+
+      .control-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.75rem;
+      }
+
+      .section {
+        padding: 70px 0;
+      }
+
+      .section-header {
+        margin-bottom: 50px;
+      }
+
+      .section-header h2 {
+        font-size: 1.75rem;
+      }
+
+      .hero {
+        padding: 80px 0 60px;
+      }
+
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+
+      .hero-content .lead {
+        font-size: 1.1rem;
+      }
+
+      .ps-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 20px 15px;
+        gap: 30px;
+      }
+
+      .feature-card {
+        padding: 25px 20px;
+      }
+
+      .testimonial {
+        padding: 25px 15px;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 60px 0;
+      }
+    }
+
+    /* ================= ANIMATIONS ================= */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* ================= BACK TO TOP BUTTON ================= */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-hover);
+      z-index: 99;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition);
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--primary-dark);
+      transform: translateY(-5px);
+      animation: pulse 1s infinite;
+    }
+
+    /* ================= LANGUAGE OPTIONS ================= */
+    .language-options {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px;
+      box-shadow: var(--shadow);
+      z-index: 100;
+      display: none;
+    }
+
+    .language-options.active {
+      display: block;
+    }
+
+    .language-option {
+      display: block;
+      padding: 10px 15px;
+      border-radius: var(--radius);
+      color: var(--text);
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .language-option:hover {
+      background: rgba(42, 124, 199, 0.1);
+      color: var(--primary);
+    }
+
+    /* ================= CUSTOM SCROLLBAR ================= */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+  </style>
+</head>
+<body class="light-mode" dir="ltr">
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <header>
+    <div class="header-container">
+      <div class="brand">
+        <div class="logo">
+          <img src="digotopia.jpeg" alt="Health image">
+        </div>
+        <span>Healthic</span>
+      </div>
+      
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#hero" class="active">Home</a></li>
+          <li><a href="#stats">Statistics</a></li>
+          <li><a href="#problem-solution">Our Approach</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+        </ul>
+      </nav>
+      
+      <div class="header-controls">
+        <button id="theme-toggle" class="control-btn" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        
+        <div class="language-selector">
+          <button id="language-toggle" class="control-btn" aria-label="Toggle language">
+            <i class="fas fa-globe"></i>
+            <span>EN</span>
+          </button>
+          <div class="language-options">
+            <button class="language-option" data-lang="en" dir="ltr">English</button>
+            <button class="language-option" data-lang="ar" dir="rtl">العربية</button>
+          </div>
+        </div>
+
+        <button class="mobile-menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="section">
+      <div class="wrap hero">
+        <div class="hero-content">
+          <span class="pill"><i class="fas fa-heartbeat"></i> Health Initiative</span>
+          <h1>Enhance your health, discover our customized AI model, and download the presentation</h1>
+          <p class="lead">CComprehensive cross-platform app combining AI technology and trusted medical content to combat chronic diseases in Egypt</p>
+          <div class="cta">
+            <a class="btn primary" href="#features">Explore Features <i class="fas fa-arrow-right"></i></a>
+            <a class="btn secondary" href="https://www.youtube.com/watch?v=Bs4hUJxGu9s" target="_blank" rel="noopener">
+              <i class="fas fa-play-circle"></i> Watch Demo
+            </a>
+          </div>
+        </div>
+        <div class="hero-animation">
+          <div class="hero-animation-placeholder">
+<script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
+<dotlottie-wc src="https://lottie.host/8fa95d39-bf9b-4535-a645-eda95926c520/yGN97qfUTL.lottie" style="width: 300px;height: 300px" speed="1" autoplay loop></dotlottie-wc>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="section section-alt">
+      <div class="wrap">
+        <div class="section-header">
+          <h2>Chronic Diseases in Egypt: Alarming Facts</h2>
+          <p>Understanding the scale of the challenge we're addressing with data-driven insights</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-skull"></i>
+            </div>
+            <div class="stat-number" data-count="82">0</div>
+            <div class="stat-label">Deaths due to chronic diseases</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-vial"></i>
+            </div>
+            <div class="stat-number" data-count="22">0</div>
+            <div class="stat-label">Diabetes prevalence rate</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-number" data-count="10">0</div>
+            <div class="stat-label">Million+ diabetics in Egypt</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-globe"></i>
+            </div>
+            <div class="stat-number" data-count="75">0</div>
+            <div class="stat-label">Global chronic disease deaths</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problem Solution Section -->
+    <section id="problem-solution" class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <h2>Our Approach to Chronic Disease Management</h2>
+          <p>Combining cutting-edge technology with medical expertise to transform healthcare delivery</p>
+        </div>
+        <div class="ps-container">
+          <div class="ps-card problem">
+            <div class="ps-content">
+              <h3>The Challenge</h3>
+              <p>Over <strong>80%</strong> of Egyptians suffer from <strong>chronic diseases</strong> including liver conditions, kidney disease, heart disease, and diabetes, creating a national health crisis with far-reaching implications.</p>
+              <ul>
+                <li>Limited access to specialized care in rural areas</li>
+                <li>Lack of reliable Arabic medical information</li>
+                <li>High costs of continuous treatment and medications</li>
+                <li>Difficulty in daily disease management and tracking</li>
+                <li>Low awareness about prevention strategies</li>
+              </ul>
+            </div>
+            <div class="ps-animation">
+              <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
+              <dotlottie-wc src="https://lottie.host/b750ace7-1f8a-4176-8204-4a64982473b9/Mza232pQtS.lottie" style="width: 300px;height: 300px" speed="1" autoplay loop></dotlottie-wc>
+            </div>
+          </div>
+          
+          <div class="ps-card solution">
+            <div class="ps-animation">
+              <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
+              <dotlottie-wc src="https://lottie.host/ea9483e2-a479-4969-aa1c-c9d3916d497a/LgNUe15U5K.lottie" style="width: 300px;height: 300px" speed="1" autoplay loop></dotlottie-wc>
+            </div>
+            <div class="ps-content">
+              <h3>Our Solution</h3>
+              <p>A <strong>cross-platform application</strong> providing personalized patient <strong>guides</strong>, <strong>AI-powered</strong> health assistance, access to top <strong>doctors and labs</strong> across Egypt, and a <strong>dedicated resource</strong> for each disease with verified, up-to-date information.</p>
+              <ul>
+                <li>AI-powered health assistant with natural language processing</li>
+                <li>Comprehensive disease database with treatment options</li>
+                <li>Personalized health plans and medication tracking</li>
+                <li>Doctor and lab directory with reviews and booking system</li>
+                <li>Multi-language support with focus on Arabic content</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section section-alt">
+      <div class="wrap">
+        <div class="section-header">
+          <h2>Powerful Features for Better Health Management</h2>
+          <p>Our platform offers everything you need to understand, manage, and prevent chronic diseases effectively</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h3>AI Health Assistant</h3>
+            <p>Get personalized answers to your health questions with our advanced AI system trained on extensive medical knowledge and research.</p>
+            <a href="#" class="feature-link" hidden>Learn more <i class="fas fa-arrow-right"></i></a>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-book-medical"></i>
+            </div>
+            <h3>Disease Encyclopedia</h3>
+            <p>Comprehensive information on chronic diseases including causes, symptoms, prevention strategies, and treatment options.</p>
+            <a href="#" class="feature-link" hidden>Explore diseases <i class="fas fa-arrow-right"></i></a>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-user-md"></i>
+            </div>
+            <h3>Doctor Directory</h3>
+            <p>Find and connect with top specialists across Egypt, with verified reviews, availability, and appointment booking.</p>
+            <a href="#" class="feature-link" hidden>Find doctors <i class="fas fa-arrow-right"></i></a>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-flask"></i>
+            </div>
+            <h3>Lab Services</h3>
+            <p>Discover trusted medical laboratories and diagnostic centers with location details, services, and pricing information.</p>
+            <a href="#" class="feature-link" hidden>Find labs <i class="fas fa-arrow-right"></i></a>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>Health Tracking</h3>
+            <p>Monitor your health metrics over time and receive personalized insights based on your data with predictive analytics.</p>
+            <a href="#" class="feature-link" hidden>Track health <i class="fas fa-arrow-right"></i></a>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Secure Data Storage</h3>
+            <p>Your health information is encrypted and stored securely, with full control over your privacy settings and data sharing.</p>
+            <a href="#" class="feature-link" hidden>Privacy info <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <h2>How Healthic Works</h2>
+          <p>Four simple steps to better health management and improved quality of life</p>
+        </div>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Sign Up & Create Profile</h3>
+              <p>Register and set up your comprehensive health profile with information about your conditions, medications, and health concerns.</p>
+            </div>
+          </div>
+          
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Access AI Assistant</h3>
+              <p>Ask questions and get personalized health advice from our AI-powered assistant, available 24/7 in multiple languages.</p>
+            </div>
+          </div>
+          
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Explore Resources</h3>
+              <p>Access our disease encyclopedia, find qualified doctors, locate medical facilities, and join supportive communities.</p>
+            </div>
+          </div>
+          
+          <div class="process-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Track & Improve</h3>
+              <p>Monitor your health progress, receive personalized recommendations, and achieve your wellness goals with our support.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="wrap">
+        <h2>Ready to Take Control of Your Health?</h2>
+        <p>Join thousands of users who are already managing their chronic conditions effectively with Healthic's AI-powered platform</p>
+        <div class="cta-buttons">
+           <a target="_blank" class="btn outline-white" href="https://drive.google.com/file/d/19juHU71xsY00a35XV7PZO9VZEbezr5zi/view?usp=sharing">download our pdf<i class="fas fa-arrow-right"></i></a>
+          <a target="_blank" href="https://www.facebook.com/profile.php?id=61579626069414" class="btn outline-white">Learn More</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Healthic</h3>
+          <p>AI-powered health platform for chronic disease management, prevention, and education with personalized insights.</p>
+          <div class="social-links">
+            <a href="https://www.facebook.com/profile.php?id=61579626069414" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://whatsapp.com/channel/0029VbBE95ZGufIzkGAewN08" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/healthic_2025?igsh=eGNuaDExMHphNnQx" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin-in" ></i></a>
+            <a href="https://www.youtube.com/watch?v=KwLLWOLNjQA" target="_blank"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="https://whatsapp.com/channel/0029VbBE95ZGufIzkGAewN08">alt="whatsapp"></a></li>
+            <li><a href="#">Our Approach</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="https://www.who.int/data" target="_blank">WHO</a></li>
+            <li><a href="https://huggingface.co/" target="_blank">Hugging face</a></li>
+            <li><a href="https://www.mohp.gov.eg/" target="_blank">MOHP</a></li>
+            <li><a href="https://www.medscape.com/" target="_blank">MEDSCAPE</a></li>
+            <li><a href="https://www.smartpatients.com/">Smart Patients </a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Contact Us</h4>
+          <ul>
+            <li><i class="fas fa-envelope"></i> healthic2025@gmail.com</li>
+            <li><i class="fas fa-phone"></i>+0201101525105</li>
+            <li><i class="fas fa-map-marker-alt"></i> Qalyubiyya, Egypt</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> Healthic. All rights reserved. Made with <i class="fas fa-heart"></i> by Youssef Mohammed</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top button -->
+  <button class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // Initialize when document is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set current year in footer
+      document.getElementById('year').textContent = new Date().getFullYear();
+      
+      // Theme toggle functionality
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = themeToggle.querySelector('i');
+      
+      // Check for saved theme preference or respect OS preference
+      const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+      
+      themeToggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+      });
+      
+      function updateThemeIcon(theme) {
+        if (theme === 'dark') {
+          themeIcon.className = 'fas fa-sun';
+        } else {
+          themeIcon.className = 'fas fa-moon';
+        }
+      }
+      
+      // Language toggle functionality
+      const languageToggle = document.getElementById('language-toggle');
+      const languageOptions = document.querySelector('.language-options');
+      const languageText = languageToggle.querySelector('span');
+      
+      // Check for saved language preference
+      const savedLang = localStorage.getItem('language') || 'en';
+      changeLanguage(savedLang);
+      
+      languageToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        languageOptions.classList.toggle('active');
+      });
+      
+      document.querySelectorAll('.language-option').forEach(option => {
+        option.addEventListener('click', function() {
+          const lang = this.getAttribute('data-lang');
+          changeLanguage(lang);
+          languageOptions.classList.remove('active');
+        });
+      });
+      
+      // Close language options when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.language-selector')) {
+          languageOptions.classList.remove('active');
+        }
+      });
+      
+      function changeLanguage(lang) {
+        const dir = lang === 'ar' ? 'rtl' : 'ltr';
+        document.documentElement.setAttribute('dir', dir);
+        document.documentElement.setAttribute('lang', lang);
+        localStorage.setItem('language', lang);
+        languageText.textContent = lang.toUpperCase();
+        
+        // Update content based on language
+        updateContentForLanguage(lang);
+      }
+      
+      function updateContentForLanguage(lang) {
+        // Navigation items
+        const navItems = document.querySelectorAll('.main-nav a');
+        
+        if (lang === 'ar') {
+          // Arabic content
+          document.querySelector('title').textContent = 'Healthic';
+          navItems[0].textContent = 'الرئيسية';
+          navItems[1].textContent = 'الإحصائيات';
+          navItems[2].textContent = 'مشروعنا';
+          navItems[3].textContent = 'المميزات';
+          navItems[4].textContent = 'كيف تعمل';
+          
+          // Hero section
+          document.querySelector('.pill').textContent = 'Healthic cross-platform app';
+          document.querySelector('.hero-content h1').textContent = 'اهتم بصحتك، جرّب نموذج الذكاء الاصطناعي المصمم خصيصًا لك، وحمّل العرض التقديمي الآن';
+          document.querySelector('.hero-content .lead').textContent = 'تطبيق شامل متعدد المنصات يجمع بين تكنولوجيا الذكاء الاصطناعي ومحتوى طبي موثوق لمحاربة الأمراض المزمنة في مصر';
+          document.querySelector('.cta .primary').textContent = 'استكشف المميزات';
+          document.querySelector('.cta .btn:not(.primary)').innerHTML = '<i class="fas fa-play-circle"></i> شاهد الفيديو';
+          
+          // Stats section
+          document.querySelector('#stats .section-header h2').textContent = 'الأمراض المزمنة في مصر: حقائق صادمة';
+          document.querySelector('#stats .section-header p').textContent = 'فهم حجم التحدي الذي نتعامل معه';
+          document.querySelectorAll('.stat-label')[0].textContent = 'نسبة الوفيات بسبب الأمراض المزمنة';
+          document.querySelectorAll('.stat-label')[1].textContent = 'نسبة انتشار مرض السكري';
+          document.querySelectorAll('.stat-label')[2].textContent = 'مليون+ مصاب بالسكري في مصر';
+          document.querySelectorAll('.stat-label')[3].textContent = 'نسبة الوفيات العالمية بسبب الأمراض المزمنة';
+          
+          // Problem solution section
+          document.querySelector('#problem-solution .section-header h2').textContent = 'نهجنا في إدارة الأمراض المزمنة';
+          document.querySelector('#problem-solution .section-header p').textContent = 'الجمع بين التكنولوجيا الحديثة والخبرة الطبية لتحويل الرعاية الصحية';
+          
+          document.querySelector('.problem h3').textContent = 'التحدي';
+          document.querySelector('.problem p').innerHTML = 'يعاني أكثر من <strong>80%</strong> من المصريين من <strong>أمراض مزمنة</strong> تشمل أمراض الكبد والكلى والقلب والسكري، مما يشكل أزمة صحية قومية.';
+          document.querySelectorAll('.problem li')[0].textContent = 'صعوبة الوصول للرعاية المتخصصة';
+          document.querySelectorAll('.problem li')[1].textContent = 'نقص المعلومات الطبية الموثوقة باللغة العربية';
+          document.querySelectorAll('.problem li')[2].textContent = 'ارتفاع تكاليف العلاج المستمر';
+          document.querySelectorAll('.problem li')[3].textContent = 'صعوبة في إدارة الأمراض';
+          document.querySelectorAll('.problem li')[4].textContent = 'انخفاض الوعي حول استراتيجيات الوقاية';
+          
+          document.querySelector('.solution h3').textContent = 'حلنا';
+          document.querySelector('.solution p').innerHTML = 'تطبيق <strong>متعدد المنصات</strong> يقدم <strong>إرشادات للمرضى</strong>، ومساعدًا <strong>شخصيًا مدعومًا بالذكاء الاصطناعي</strong>، ووصولاً لأفضل <strong>الأطباء والمعامل</strong> في مصر، وصفحة <strong>مخصصة</strong> لكل مرض بمعلومات موثقة.';
+          document.querySelectorAll('.solution li')[0].textContent = 'مساعد صحي مدعوم بالذكاء الاصطناعي';
+          document.querySelectorAll('.solution li')[1].textContent = 'قاعدة شاملة لمعلومات الأمراض';
+          document.querySelectorAll('.solution li')[2].textContent = 'خطط صحية شخصية';
+          document.querySelectorAll('.solution li')[3].textContent = 'دليل للأطباء والمعامل';
+          document.querySelectorAll('.solution li')[4].textContent = 'دعم متعدد اللغات مع التركيز على المحتوى العربي';
+          
+          // Features section
+          document.querySelector('#features .section-header h2').textContent = 'مميزات قوية لإدارة صحية أفضل';
+          document.querySelector('#features .section-header p').textContent = 'تقدم منصتنا كل ما تحتاجه لفهم وإدارة والوقاية من الأمراض المزمنة';
+          
+          document.querySelectorAll('.feature-card h3')[0].textContent = 'مساعد صحي بالذكاء الاصطناعي';
+          document.querySelectorAll('.feature-card p')[0].textContent = 'احصل على إجابات شخصية لأسئلتك الصحية من خلال نظامنا المتقدم المدرب على المعرفة الطبية.';
+          document.querySelectorAll('.feature-link')[0].innerHTML = 'اعرف أكثر <i class="fas fa-arrow-left"></i>';
+          
+          document.querySelectorAll('.feature-card h3')[1].textContent = 'موسوعة الأمراض';
+          document.querySelectorAll('.feature-card p')[1].textContent = 'معلومات شاملة عن الأمراض المزمنة تشمل الأسباب والأعراض والوقاية وخيارات العلاج.';
+          document.querySelectorAll('.feature-link')[1].innerHTML = 'استكشف الأمراض <i class="fas fa-arrow-left"></i>';
+          
+          document.querySelectorAll('.feature-card h3')[2].textContent = 'دليل الأطباء';
+          document.querySelectorAll('.feature-card p')[2].textContent = 'ابحث عن أفضل المتخصصين في مصر وتواصل معهم، مع تقييمات موثقة وإمكانية حجز المواعيد.';
+          document.querySelectorAll('.feature-link')[2].innerHTML = 'ابحث عن أطباء <i class="fas fa-arrow-left"></i>';
+          
+          document.querySelectorAll('.feature-card h3')[3].textContent = 'خدمات المعامل';
+          document.querySelectorAll('.feature-card p')[3].textContent = 'اكتشف معامل التحاليل والمراكز التشخيصية الموثوقة مع تفاصيل الموقع ومعلومات الخدمة.';
+          document.querySelectorAll('.feature-link')[3].innerHTML = 'ابحث عن معامل <i class="fas fa-arrow-left"></i>';
+          
+          document.querySelectorAll('.feature-card h3')[4].textContent = 'تتبع الصحة';
+          document.querySelectorAll('.feature-card p')[4].textContent = 'تابع مقاييس صحتك عبر الزمن واحصل على رؤى شخصية بناءً على بياناتك.';
+          document.querySelectorAll('.feature-link')[4].innerHTML = 'تابع صحتك <i class="fas fa-arrow-left"></i>';
+          
+          document.querySelectorAll('.feature-card h3')[5].textContent = 'تخزين آمن للبيانات';
+          document.querySelectorAll('.feature-card p')[5].textContent = 'معلوماتك الصحية مشفرة ومخزنة بأمان، مع تحكم كامل في إعدادات الخصوصية.';
+          document.querySelectorAll('.feature-link')[5].innerHTML = 'معلومات الخصوصية <i class="fas fa-arrow-left"></i>';
+          
+          // How it works section
+          document.querySelector('#how-it-works .section-header h2').textContent = 'كيف تعمل Healthic';
+          document.querySelector('#how-it-works .section-header p').textContent = 'أربع خطوات بسيطة لإدارة صحية أفضل';
+          
+          document.querySelectorAll('.step-content h3')[0].textContent = 'سجل وأنشئ ملفك';
+          document.querySelectorAll('.step-content p')[0].textContent = 'قم بالتسجيل وإعداد ملفك الصحي بمعلومات عنك ';
+          
+          document.querySelectorAll('.step-content h3')[1].textContent = 'استخدم المساعد الذكي';
+          document.querySelectorAll('.step-content p')[1].textContent = 'طرح الأسئلة واحصل على نصائح صحية شخصية من مساعدنا المدعوم بالذكاء الاصطناعي';
+          
+          document.querySelectorAll('.step-content h3')[2].textContent = 'استكشف الموارد';
+          document.querySelectorAll('.step-content p')[2].textContent = 'اذهب إلى موسوعة الأمراض، وابحث عن الأطباء، واعثر على المرافق الطبية';
+          
+          document.querySelectorAll('.step-content h3')[3].textContent = 'تابع وحسّن';
+          document.querySelectorAll('.step-content p')[3].textContent = 'راقب تقدمك الصحي وتلقّ توصيات شخصية لتحسين صحتك';
+          
+          // Footer
+          document.querySelector('.footer-section h3').textContent = 'Healthic';
+          document.querySelector('.footer-section p').textContent = 'هذه المنصة تمثل وصف لمنصتنا الصحية والتي هي مدعومة بالذكاء الاصطناعي لإدارة والوقاية من الأمراض المزمنة ';
+          
+          document.querySelectorAll('.footer-section h4')[0].textContent = 'روابط سريعة';
+          document.querySelectorAll('.footer-section a')[5].textContent = 'نصائح صحية';
+          document.querySelectorAll('.footer-section a')[6].textContent = 'الأسئلة الشائعة';
+          
+          document.querySelectorAll('.footer-section h4')[2].textContent = 'اتصل بنا';
+          
+          document.querySelector('.footer-bottom p').innerHTML = '&copy; <span id="year"></span> Healthic. كل الحقوق محفوظة. صنع بـ <i class="fas fa-heart"></i> بواسطة يوسف محمد';
+          
+        } else {
+          // English content (default)
+          document.querySelector('title').textContent = 'Healthic – AI-Powered Chronic Disease Support';
+          navItems[0].textContent = 'Home';
+          navItems[1].textContent = 'Statistics';
+          navItems[2].textContent = 'Our Approach';
+          navItems[3].textContent = 'Features';
+          navItems[4].textContent = 'How It Works';
+          
+          // Hero section
+          document.querySelector('.pill').textContent = 'Healthic cross-platfrom app';
+          document.querySelector('.hero-content h1').textContent = 'Enhance your health, discover our customized AI model, and download the presentation';
+          document.querySelector('.hero-content .lead').textContent = 'Comprehensive cross-platform app combining AI technology and trusted medical content to combat chronic diseases in Egypt ';
+          document.querySelector('.cta .primary').textContent = 'Explore Features';
+          document.querySelector('.cta .btn:not(.primary)').innerHTML = '<i class="fas fa-play-circle"></i> Watch Video';
+          
+          // Stats section
+          document.querySelector('#stats .section-header h2').textContent = 'Chronic Diseases in Egypt: Alarming Facts';
+          document.querySelector('#stats .section-header p').textContent = 'Understanding the scale of the challenge we\'re addressing';
+          document.querySelectorAll('.stat-label')[0].textContent = 'Deaths due to chronic diseases';
+          document.querySelectorAll('.stat-label')[1].textContent = 'Diabetes prevalence rate';
+          document.querySelectorAll('.stat-label')[2].textContent = 'Million+ diabetics in Egypt';
+          document.querySelectorAll('.stat-label')[3].textContent = 'Global chronic disease deaths';
+          
+          // Problem solution section
+          document.querySelector('#problem-solution .section-header h2').textContent = 'Our Approach to Chronic Disease Management';
+          document.querySelector('#problem-solution .section-header p').textContent = 'Combining cutting-edge technology with medical expertise to transform healthcare';
+          
+          document.querySelector('.problem h3').textContent = 'The Challenge';
+          document.querySelector('.problem p').innerHTML = 'Over <strong>80%</strong> of Egyptians suffer from <strong>chronic diseases</strong> including liver conditions, kidney disease, heart disease, and diabetes, creating a national health crisis.';
+          document.querySelectorAll('.problem li')[0].textContent = 'Limited access to specialized care';
+          document.querySelectorAll('.problem li')[1].textContent = 'Lack of reliable Arabic medical information';
+          document.querySelectorAll('.problem li')[2].textContent = 'High costs of continuous treatment';
+          document.querySelectorAll('.problem li')[3].textContent = 'Difficulty in disease management';
+          
+          document.querySelector('.solution h3').textContent = 'Our Solution';
+          document.querySelector('.solution p').innerHTML = 'A <strong>cross-platform application</strong> providing patient <strong>guides</strong>, <strong>AI-powered</strong> personalized assistance, access to top <strong>doctors and labs</strong> in Egypt, and a <strong>dedicated page</strong> for each disease with verified information.';
+          document.querySelectorAll('.solution li')[0].textContent = 'AI-powered health assistant';
+          document.querySelectorAll('.solution li')[1].textContent = 'Comprehensive disease database';
+          document.querySelectorAll('.solution li')[2].textContent = 'Personalized health plans';
+          document.querySelectorAll('.solution li')[3].textContent = 'Doctor and lab directory';
+          
+          // Features section
+          document.querySelector('#features .section-header h2').textContent = 'Powerful Features for Better Health Management';
+          document.querySelector('#features .section-header p').textContent = 'Our platform offers everything you need to understand, manage, and prevent chronic diseases';
+          
+          document.querySelectorAll('.feature-card h3')[0].textContent = 'AI Health Assistant';
+          document.querySelectorAll('.feature-card p')[0].textContent = 'Get personalized answers to your health questions with our advanced AI system trained on medical knowledge.';
+          document.querySelectorAll('.feature-link')[0].innerHTML = 'Learn more <i class="fas fa-arrow-right"></i>';
+          
+          document.querySelectorAll('.feature-card h3')[1].textContent = 'Disease Encyclopedia';
+          document.querySelectorAll('.feature-card p')[1].textContent = 'Comprehensive information on chronic diseases including causes, symptoms, prevention, and treatment options.';
+          document.querySelectorAll('.feature-link')[1].innerHTML = 'Explore diseases <i class="fas fa-arrow-right"></i>';
+          
+          document.querySelectorAll('.feature-card h3')[2].textContent = 'Doctor Directory';
+          document.querySelectorAll('.feature-card p')[2].textContent = 'Find and connect with top specialists across Egypt, with verified reviews and appointment booking.';
+          document.querySelectorAll('.feature-link')[2].innerHTML = 'Find doctors <i class="fas fa-arrow-right"></i>';
+          
+          document.querySelectorAll('.feature-card h3')[3].textContent = 'Lab Services';
+          document.querySelectorAll('.feature-card p')[3].textContent = 'Discover trusted medical laboratories and diagnostic centers with location details and service information.';
+          document.querySelectorAll('.feature-link')[3].innerHTML = 'Find labs <i class="fas fa-arrow-right"></i>';
+          
+          document.querySelectorAll('.feature-card h3')[4].textContent = 'Health Tracking';
+          document.querySelectorAll('.feature-card p')[4].textContent = 'Monitor your health metrics over time and receive personalized insights based on your data.';
+          document.querySelectorAll('.feature-link')[4].innerHTML = 'Track health <i class="fas fa-arrow-right"></i>';
+          
+          document.querySelectorAll('.feature-card h3')[5].textContent = 'Secure Data Storage';
+          document.querySelectorAll('.feature-card p')[5].textContent = 'Your health information is encrypted and stored securely, with full control over your privacy settings.';
+          document.querySelectorAll('.feature-link')[5].innerHTML = 'Privacy info <i class="fas fa-arrow-right"></i>';
+          
+          // How it works section
+          document.querySelector('#how-it-works .section-header h2').textContent = 'How Healthic Works';
+          document.querySelector('#how-it-works .section-header p').textContent = 'Four simple steps to better health management';
+          
+          document.querySelectorAll('.step-content h3')[0].textContent = 'Sign Up & Create Profile';
+          document.querySelectorAll('.step-content p')[0].textContent = 'Register and set up your health profile with information about you.';
+          
+          document.querySelectorAll('.step-content h3')[1].textContent = 'Access AI Assistant';
+          document.querySelectorAll('.step-content p')[1].textContent = 'Ask questions and get personalized health advice from our Customized-Ai assistant.';
+          
+          document.querySelectorAll('.step-content h3')[2].textContent = 'Explore Resources';
+          document.querySelectorAll('.step-content p')[2].textContent = 'Access our disease encyclopedia, find doctors, and locate medical facilities.';
+          
+          document.querySelectorAll('.step-content h3')[3].textContent = 'Track & Improve';
+          document.querySelectorAll('.step-content p')[3].textContent = 'Monitor your health progress and receive personalized recommendations.';
+          
+          // Footer
+          document.querySelector('.footer-section h3').textContent = 'Healthic';
+          document.querySelector('.footer-section p').textContent = 'This platform represents our AI-powered health solution designed to manage and prevent chronic diseases';
+
+          document.querySelectorAll('.footer-section a')[5].textContent = 'Health Tips';
+          document.querySelectorAll('.footer-section a')[6].textContent = 'FAQ';
+          
+          document.querySelectorAll('.footer-section h4')[2].textContent = 'Contact Us';
+          
+          document.querySelector('.footer-bottom p').innerHTML = '&copy; <span id="year"></span> Healthic. All rights reserved. Made with <i class="fas fa-heart"></i> by Youssef Mohammed';
+        }
+      }
+      
+      // Mobile menu functionality
+      const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+      const mainNav = document.querySelector('.main-nav');
+      
+      if (mobileMenuToggle && mainNav) {
+        mobileMenuToggle.addEventListener('click', function() {
+          mainNav.classList.toggle('active');
+          
+          // Update icon
+          const icon = this.querySelector('i');
+          if (mainNav.classList.contains('active')) {
+            icon.className = 'fas fa-times';
+          } else {
+            icon.className = 'fas fa-bars';
+          }
+        });
+      }
+      
+      // Close mobile menu when clicking outside
+      document.addEventListener('click', function(event) {
+        if (mainNav && mainNav.classList.contains('active') && 
+            !event.target.closest('.main-nav') && 
+            !event.target.closest('.mobile-menu-toggle')) {
+          mainNav.classList.remove('active');
+          mobileMenuToggle.querySelector('i').className = 'fas fa-bars';
+        }
+      });
+      
+      // Navigation click handler - animate sections when clicked
+      document.querySelectorAll('.main-nav a').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          const targetSection = document.querySelector(targetId);
+          
+          if (targetSection) {
+            // Scroll to the section
+            window.scrollTo({
+              top: targetSection.offsetTop - 80,
+              behavior: 'smooth'
+            });
+            
+            // Animate the section after a short delay
+            setTimeout(() => {
+              animateSection(targetId);
+            }, 500);
+          }
+        });
+      });
+      
+      // Function to animate specific section
+      function animateSection(sectionId) {
+        if (sectionId === '#stats') {
+          const statCards = document.querySelectorAll('.stat-card');
+          statCards.forEach((card, index) => {
+            setTimeout(() => {
+              card.classList.add('animated');
+            }, index * 200);
+          });
+          
+          // Animate numbers counting
+          animateStats();
+        } 
+        else if (sectionId === '#problem-solution') {
+          const problemCard = document.querySelector('.ps-card.problem');
+          const solutionCard = document.querySelector('.ps-card.solution');
+          
+          setTimeout(() => {
+            problemCard.classList.add('animated');
+          }, 300);
+          
+          setTimeout(() => {
+            solutionCard.classList.add('animated');
+          }, 800);
+        }
+        else if (sectionId === '#features') {
+          const featureCards = document.querySelectorAll('.feature-card');
+          featureCards.forEach((card, index) => {
+            setTimeout(() => {
+              card.classList.add('animated');
+            }, index * 150);
+          });
+        }
+        else if (sectionId === '#how-it-works') {
+          const processSteps = document.querySelectorAll('.process-step');
+          processSteps.forEach((step, index) => {
+            setTimeout(() => {
+              step.classList.add('animated');
+            }, index * 300);
+          });
+        }
+      }
+      
+      // Highlight active navigation item based on scroll position
+      function highlightActiveNav() {
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.main-nav a');
+        
+        let currentSection = '';
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          
+          if (window.scrollY >= sectionTop - 100) {
+            currentSection = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+      
+      // Back to top button
+      const backToTopButton = document.querySelector('.back-to-top');
+      
+      backToTopButton.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+      
+      // Show/hide back to top button based on scroll position
+      function toggleBackToTop() {
+        if (window.scrollY > 500) {
+          backToTopButton.classList.add('visible');
+        } else {
+          backToTopButton.classList.remove('visible');
+        }
+      }
+      
+      // Progress bar functionality
+      const progressBar = document.getElementById('progress-bar');
+      
+      function updateProgressBar() {
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight - windowHeight;
+        const scrollPosition = window.scrollY;
+        const progress = (scrollPosition / documentHeight) * 100;
+        progressBar.style.width = progress + '%';
+      }
+      
+      // Update navigation, back to top button, and progress bar on scroll
+      window.addEventListener('scroll', function() {
+        highlightActiveNav();
+        toggleBackToTop();
+        updateProgressBar();
+        
+        // Animate sections when they come into view
+        animateOnScroll();
+      });
+      
+      // Initialize navigation highlighting on page load
+      highlightActiveNav();
+      
+      // Animate elements on scroll
+      function animateOnScroll() {
+        const scrollPosition = window.scrollY + window.innerHeight;
+        
+        // Animate stats cards
+        const statsSection = document.getElementById('stats');
+        if (statsSection && statsSection.offsetTop < scrollPosition) {
+          const statCards = document.querySelectorAll('.stat-card');
+          statCards.forEach((card, index) => {
+            setTimeout(() => {
+              card.classList.add('animated');
+            }, index * 200);
+          });
+          
+          // Animate numbers counting
+          animateStats();
+        }
+        
+        // Animate problem-solution cards
+        const psSection = document.getElementById('problem-solution');
+        if (psSection && psSection.offsetTop < scrollPosition) {
+          const problemCard = document.querySelector('.ps-card.problem');
+          const solutionCard = document.querySelector('.ps-card.solution');
+          
+          setTimeout(() => {
+            if (problemCard) problemCard.classList.add('animated');
+          }, 300);
+          
+          setTimeout(() => {
+            if (solutionCard) solutionCard.classList.add('animated');
+          }, 800);
+        }
+        
+        // Animate feature cards
+        const featuresSection = document.getElementById('features');
+        if (featuresSection && featuresSection.offsetTop < scrollPosition) {
+          const featureCards = document.querySelectorAll('.feature-card');
+          featureCards.forEach((card, index) => {
+            setTimeout(() => {
+              card.classList.add('animated');
+            }, index * 150);
+          });
+        }
+        
+        // Animate process steps
+        const processSection = document.getElementById('how-it-works');
+        if (processSection && processSection.offsetTop < scrollPosition) {
+          const processSteps = document.querySelectorAll('.process-step');
+          processSteps.forEach((step, index) => {
+            setTimeout(() => {
+              step.classList.add('animated');
+            }, index * 300);
+          });
+        }
+      }
+      
+      // Animate stats counting
+      const animateStats = function() {
+        // Only animate if not already animated
+        if (document.querySelector('.stat-number').textContent !== '0') return;
+        
+        const statNumbers = document.querySelectorAll('.stat-number');
+        
+        statNumbers.forEach(stat => {
+          const target = parseInt(stat.getAttribute('data-count'));
+          const duration = 2000;
+          const steps = 100;
+          const stepValue = target / steps;
+          let current = 0;
+          
+          const timer = setInterval(() => {
+            current += stepValue;
+            if (current >= target) {
+              clearInterval(timer);
+              stat.textContent = target + (stat.getAttribute('data-count') === '82' || stat.getAttribute('data-count') === '22' || stat.getAttribute('data-count') === '75' ? '%' : 'M+');
+            } else {
+              stat.textContent = Math.floor(current) + (stat.getAttribute('data-count') === '82' || stat.getAttribute('data-count') === '22' || stat.getAttribute('data-count') === '75' ? '%' : 'M+');
+            }
+          }, duration / steps);
+        });
+      };
+      
+      // Trigger initial animation check
+      setTimeout(animateOnScroll, 1000);
+      });
+   
+   
+  </script>
+</body>
+</html>
